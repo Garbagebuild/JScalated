@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JScalated Features and Safety</title>
+<link rel="icon" href="favicon.ico">
+<style>body{margin:0;background:#07111f;color:#e2e8f0;font:16px Arial,sans-serif}.wrap{max-width:820px;margin:auto;padding:20px}a,h1,h2{color:#38bdf8}.card{background:#0b1728;border:1px solid #20324a;border-radius:12px;padding:18px;margin:16px 0}.btn{display:inline-block;margin:5px;padding:10px 14px;border-radius:7px;background:#0284c7;color:#fff;text-decoration:none}.warn{background:#5f1b1b;padding:12px;border-radius:7px}</style>
+</head>
+<body><main class="wrap">
+<a href="index.html">&larr; Back to JScalated</a>
+<h1>Features &amp; safety</h1>
+<section class="card"><h2>JScalated ADB method</h2><ul><li>Complete loader carried through <code>window.name</code> to the System page</li><li>One XPI installs the matching public key and enables USB ADB, with optional wireless ADB on port 5555</li><li>The parent add-on checks and restores ADB settings at each later startup</li><li>An optional checkbox stages the WebIDE debugger preferences in <code>user.js</code></li><li>The on-phone panel shows staging errors and startup logs</li></ul></section>
+<section class="card"><h2>Preinstalled apps and remote shell</h2><p>The built-in AppsManager panel can disable and restore registered apps; protected phone components are blocked. The advanced agent control downloads <code>api_agent_api23</code> from a user-run LAN server that sends CORS headers, then the parent XPI copies it to its target, sets executable mode, and starts it after the next phone reboot. See the <a href="https://kaios-agent.netlify.app/">agent setup guide</a>.</p></section>
+<section class="card"><h2>OStore</h2><ul><li>Installs through the AppsManager service</li><li>Reads the JScalated GitHub catalogue and the OStore API</li><li>Shows install and update results on the phone</li></ul><p class="warn"><strong>Package-signature limit:</strong> the supplied local package tool produces invalid CMS signatures. Device acceptance is not proof of authenticity. Review and trust packages independently before installing them.</p></section>
+<section class="card"><h2>Shared ADB key</h2><p class="warn">This method uses one public computer key pair so a KaiOS keypad user never has to type a long key. The matching computer private key is intentionally shared with everyone who downloads the bundle.</p><p><a class="btn" href="downloads/jscalated-adb-key.zip" download>Computer ADB key bundle</a></p></section>
+<section class="card"><h2>Contact</h2><p>Research feedback: <strong>samjoe2010.s@gmail.com</strong></p></section>
+</main></body></html>

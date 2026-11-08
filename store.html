@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OStore Guide</title>
+<style>body{margin:0;background:#07111f;color:#e2e8f0;font:16px Arial,sans-serif}.wrap{max-width:820px;margin:auto;padding:20px}a,h1,h2{color:#38bdf8}.card{background:#0b1728;border:1px solid #20324a;border-radius:12px;padding:18px;margin:16px 0;line-height:1.45}code{display:block;background:#000;color:#22c55e;padding:12px;margin:8px 0;border-radius:7px;overflow:auto;white-space:pre}.warn{background:#5f1b1b;padding:12px;border-radius:7px}</style>
+</head>
+<body><main class="wrap">
+<a href="index.html">&larr; Back to JScalated</a>
+<h1>OStore</h1>
+<section class="card"><h2>Install on your KaiOS 3 phone</h2><ol><li>Choose <strong>Install OStore</strong> on the JScalated home page.</li><li>When the blank System page opens, enter the two address-bar commands shown on the home page.</li><li>The installer connects to AppsManager and installs OStore. Open it from the phone's app list.</li><li>OStore loads apps from <code>https://Garbagebuild.github.io/JScalated-Store/webapps.json</code> catalogue and the OStore API.</li></ol></section>
+<section class="card"><h2>How the GitHub catalogue is published</h2><p>Each app has a stable folder beneath <code>Apps-directory/</code>. The folder includes <code>manifest.webmanifest</code>, <code>update.webmanifest</code>, and a 56 × 56 icon beside the update manifest. The update manifest points AppsManager to the ZIP on GitHub Releases. The root <code>webapps.json</code> lists the app folders.</p></section>
+<section class="card"><h2>Package-signature limit</h2><p class="warn">The supplied Python tool copies signing-container metadata from a signed example, but its output is <strong>not cryptographically signed</strong> by the example's author. On affected firmware AppsManager may accept it; other devices may reject it with INVALID_SIGNATURE. Only install packages you trust. Installation and AppsManager access need to be confirmed on your phone.</p></section>
+</main></body></html>

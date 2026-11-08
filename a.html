@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JScalated for KaiOS</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#0b1728;--line:#20324a;--blue:#38bdf8;--green:#22c55e;--muted:#94a3b8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#e2e8f0;font-family:Arial,Helvetica,sans-serif}header{text-align:center;padding:34px 18px 25px;background:#020617;border-bottom:1px solid var(--line)}h1{margin:0;font-size:2.5rem;color:#fff}.tagline{color:var(--muted);margin-bottom:0}.wrap{max-width:900px;margin:auto;padding:18px}.panel,.tool,.link-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:19px}.panel{margin:0 0 18px}.tools,.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px;margin:18px 0}.tool h2,.panel h2{margin-top:0;color:var(--blue)}.tool p{min-height:54px;color:#cbd5e1;line-height:1.45}.action{display:block;width:100%;padding:14px;border:0;border-radius:8px;background:var(--blue);color:#020617;font-size:17px;font-weight:bold;cursor:pointer}.action.alt{background:var(--green)}.status{min-height:39px;margin:10px 0 0;padding:9px;border-radius:7px;background:#020617;color:var(--muted);font:12px monospace;word-break:break-word}.after{border-left:4px solid var(--blue)}code{display:block;margin:8px 0;padding:11px;border-radius:7px;background:#000;color:var(--green);white-space:nowrap;overflow:auto;font:13px monospace}.link-card{display:block;color:inherit;text-decoration:none}.link-card strong{display:block;color:var(--blue);font-size:17px;margin-bottom:6px}.link-card span{color:var(--muted);line-height:1.4}.badge{display:inline-block;padding:4px 8px;border-radius:99px;background:#0c4a6e;color:#bae6fd;font-size:12px}footer{text-align:center;color:#64748b;padding:25px}@media(max-width:350px){h1{font-size:2rem}.wrap{padding:10px}.tool,.panel,.link-card{padding:14px}}
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">KaiOS 3+</span>
+  <img src="favicon.ico" alt="" width="64" height="64">
+  <h1>JScalated</h1>
+  <p class="tagline">KaiOS ADB activation and development tools</p>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <h2>Overview</h2>
+    <p>JScalated carries its complete loader through <code style="display:inline;padding:2px">window.name</code> to the System page. Enable ADB, optionally enable the WebIDE debugger, manage preinstalled apps, or stage the advanced remote agent.</p>
+  </section>
+
+  <section class="tools" aria-label="JScalated tools">
+
+    <article class="tool">
+      <h2>JScalated</h2>
+      <p>Stage one parent XPI to install the matching ADB key, enable ADB, and check it again on later boots.</p>
+      <button id="stage-main" class="action" type="button">Load JScalated</button>
+      <div id="status-main" class="status">Waiting.</div>
+    </article>
+
+    <article class="tool" style="border-color:#22c55e">
+      <h2>OStore</h2>
+      <p>Install OStore on your KaiOS 3 phone. Browse apps from the JScalated GitHub catalogue and OStore's catalogue.</p>
+      <button id="stage-store" class="action alt" type="button">Install OStore</button>
+      <div id="status-store" class="status">Waiting.</div>
+    </article>
+  </section>
+
+  <section class="panel after">
+    <h2>On the System page</h2>
+    <p>After either button opens the blank System page, enter these two address-bar commands in order.</p>
+    <code>javascript:document.createElement('script')</code>
+    <code>javascript:document.write(name)</code>
+  </section>
+
+  <section class="links" aria-label="Documentation">
+    <a class="link-card" href="downloads/jscalated-adb-key.zip" download><strong>Computer ADB key bundle</strong><span>Matching shared key and a one-command Windows connection helper.</span></a>
+    <a class="link-card" href="instructions.html"><strong>Setup guide</strong><span>ADB staging, reboot, computer connection, and troubleshooting.</span></a>
+    <a class="link-card" href="store.html"><strong>OStore guide</strong><span>Installation steps, app catalogue structure, and package-signature limits.</span></a>
+    <a class="link-card" href="features.html"><strong>Features &amp; safety</strong><span>Capabilities, ADB keys, limitations, and recovery notes.</span></a>
+    <a class="link-card" href="credits.html"><strong>Credits</strong><span>People who built and tested JScalated.</span></a>
+  </section>
+</main>
+
+<footer>JScalated · KaiOS development project · 2026</footer>
+
+<script>
+(function() {
+  "use strict";
+
+  var TARGET = "http://system.localhost/proxy.html";
+  var LOADER = new URL("adb.js", location.href).href;
+  var STORE_LOADER = new URL("ostore-installer.js", location.href).href + "?t=" + Date.now();
+  var mainStatus = document.getElementById("status-main");
+  var storeStatus = document.getElementById("status-store");
+
+  function stageMainLoader() {
+    var button = document.getElementById("stage-main");
+    button.disabled = true;
+    mainStatus.textContent = "Loading complete ADB script into window.name...";
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", LOADER + "?t=" + Date.now(), true);
+    xhr.onload = function() {
+      if (xhr.status < 200 || xhr.status >= 300 || !xhr.responseText) {
+        mainStatus.textContent = "Could not load adb.js: HTTP " + xhr.status;
+        button.disabled = false;
+        return;
+      }
+      if (/<\/script/i.test(xhr.responseText)) {
+        mainStatus.textContent = "ADB loader contains a closing script tag; staging stopped.";
+        button.disabled = false;
+        return;
+      }
+      var base = new URL("./", LOADER).href;
+      var prefix = "window.JSCALATED_ASSET_BASE=" + JSON.stringify(base) + ";\n";
+      window.name = "<script>" + prefix + xhr.responseText + "<" + "/script>";
+      if (window.name.length !== prefix.length + xhr.responseText.length + 17) {
+        mainStatus.textContent = "window.name did not retain the complete loader.";
+        button.disabled = false;
+        return;
+      }
+      mainStatus.textContent = "Staged " + xhr.responseText.length +
+        " characters. Opening " + TARGET + " ...";
+      location.href = TARGET;
+    };
+    xhr.onerror = function() {
+      mainStatus.textContent = "Could not fetch adb.js from this site.";
+      button.disabled = false;
+    };
+    xhr.send();
+  }
+
+  function stageStoreLoader() {
+    window.name = `<script>
+(function(){
+  var s=document.createElement('script');
+  s.src='${STORE_LOADER}';
+  (document.head||document.documentElement).appendChild(s);
+})();
+<\/script>`;
+
+    storeStatus.textContent = "Store installer staged. Opening " + TARGET + " ...";
+    location.href = TARGET;
+  }
+
+  document.getElementById("stage-main").onclick = stageMainLoader;
+  document.getElementById("stage-store").onclick = stageStoreLoader;
+})();
+</script>
+</body>
+</html>

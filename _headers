@@ -1,0 +1,42 @@
+/*
+  Cache-Control: no-store
+
+/adb.js
+  Content-Type: application/javascript; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/jscalated-sideload.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-store
+
+/ostore-installer.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-store
+
+/appsmanager.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-store
+
+/jscalated_sideload_server.py
+  Content-Type: text/x-python; charset=utf-8
+  Content-Disposition: attachment; filename="jscalated_sideload_server.py"
+
+/downloads/jscalated-adb-key.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="jscalated-adb-key.zip"
+
+/jscalated-appscmd-armv7.bin
+  Content-Type: application/octet-stream
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/jscalated-appscmd-wrapper.sh
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/jscalated-appscmd-install.sh
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store

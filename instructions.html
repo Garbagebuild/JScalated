@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JScalated Setup Guide</title>
+<link rel="icon" href="favicon.ico">
+<style>
+body{margin:0;background:#07111f;color:#e2e8f0;font:16px/1.45 Arial,sans-serif}.wrap{max-width:820px;margin:auto;padding:20px}a,h1,h2{color:#38bdf8}.card{background:#0b1728;border:1px solid #20324a;border-radius:12px;padding:18px;margin:16px 0}code{display:block;background:#000;color:#22c55e;padding:12px;margin:8px 0;border-radius:7px;overflow:auto;white-space:nowrap}.back{text-decoration:none}.note{background:#172033;padding:12px;border-radius:7px}.btn{display:inline-block;padding:11px 15px;border-radius:7px;background:#0284c7;color:#fff;text-decoration:none}
+</style>
+</head>
+<body><main class="wrap">
+<a class="back" href="index.html">← Back to JScalated</a>
+<h1>ADB setup guide</h1>
+<section class="card"><h2>1. Load JScalated</h2><p>Open this site on the phone and press <strong>Load JScalated</strong>. The page places the complete loader in <code>window.name</code> and opens the blank System page in the same tab. The System page does not need to fetch a remote JavaScript file.</p></section>
+<section class="card"><h2>2. Open the panel</h2><p>On the blank System page, enter these address-bar commands in order:</p><code>javascript:document.createElement('script')</code><code>javascript:document.write(name)</code><p class="note">Keep the same tab between the two commands. If the panel does not appear, return to the landing page and press Load JScalated again.</p></section>
+<section class="card"><h2>3. Enable ADB</h2><p>Choose <strong>Enable WebIDE debugger</strong> if you want the Firefox debugger. Choose <strong>Enable wireless ADB on port 5555</strong> if you want Wi-Fi access. Press <strong>Enable ADB</strong>. The log box directly below the button reports whether the XPI, profile preferences, and request were staged and read back.</p><p>After staging completes, <strong>turn the whole phone off and back on</strong>. Reloading the browser page is not a reboot. The XPI installs the matching ADB key, enables ADB, and checks the service on later phone boots. You do not need to reopen the System page to activate ADB.</p></section>
+<section class="card"><h2>4. Connect from a computer</h2><p>Download the matching <a class="btn" href="downloads/jscalated-adb-key.zip" download>computer ADB key bundle</a> on the computer. Extract its files beside <strong>adb.exe</strong> in Android platform-tools. For wireless ADB, run:</p><code>connect-jscalated.cmd PHONE_WIFI_IP</code><p>The command file starts the normal ADB server with the matching key, connects to port 5555, and opens a shell. After it connects, ordinary <code>adb devices</code> and <code>adb shell</code> commands use that server until it stops.</p></section>
+<section class="card"><h2>WebIDE debugger</h2><p>If you selected the debugger checkbox, run this on the connected computer after the phone reboots:</p><code>adb forward tcp:6000 localfilesystem:/data/local/firefox-debugger-socket</code><p>Then open WebIDE in a compatible desktop browser. See the <a href="https://kaios.dev/2026/06/jscalated-from-the-browser-to-adb-on-kaios-3.1/">KaiOS.dev guide</a>.</p></section>
+<section class="card"><h2>Other tools</h2><p>The app manager below ADB uses KaiOS AppsManager to disable or restore registered preinstalled apps. System and Homescreen are protected. The advanced remote shell control at the bottom downloads a prebuilt agent from your LAN server and stages it for the next <strong>full phone reboot</strong>. Build and run the server using the <a href="https://kaios-agent.netlify.app/">agent setup guide</a>.</p></section>
+<section class="card"><h2>If ADB does not connect</h2><p>Reopen JScalated on the phone, repeat the two System-page commands, then press <strong>View activation log (optional)</strong>. The log shows the first activation and the latest boot check. A success logo appears only when the on-device check passes. A TCL Flip 3 T435X tester connected successfully and reconnected after a second phone reboot; other builds may behave differently.</p></section>
+</main></body></html>
